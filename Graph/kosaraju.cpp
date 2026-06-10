@@ -26,7 +26,6 @@ void dfs2(int u) {
     }
     value[u] = mx + concoin[u];
 }
-
 vector<int> coin(n + 5);
 for (int i = 1; i <= n; i++) cin >> coin[i];
 for (int i = 1; i <= m; i++) {

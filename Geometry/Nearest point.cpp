@@ -1,10 +1,5 @@
-#include <bits/stdc++.h>
- 
-using namespace std;
- 
 const int N = 1<<17;
 const long long INF = 2000000000000000007;
- 
 struct vp_node {
     long long threshold;
     pair < int, int > center;
@@ -12,7 +7,6 @@ struct vp_node {
 };
  
 typedef vp_node *node_ptr;
- 
 int tests,n;
 pair < int, int > pts[N],arr[N];
 long long ans;
@@ -69,27 +63,4 @@ void query(node_ptr &node, pair < int, int > q, long long &ans) {
         if(sqrt(squared_distance(node->center,q))-sqrt(ans)<sqrt(node->threshold)) 
             query(node->left,q,ans);
     }
-}
- 
-int main() {
-    int i;
- 
-    scanf("%d", &tests);
-    while(tests--) {
-        scanf("%d", &n);
-        for(i=1;i<=n;i++) {
-            scanf("%d %d", &arr[i].first, &arr[i].second);
-            pts[i]=arr[i];
-        }
- 
-        build(root,1,n);
- 
-        for(i=1;i<=n;i++) {
-            ans=INF;
-            query(root,pts[i],ans);
-            printf("%lld\n", ans);
-        }
-    }
- 
-    return 0;
 }

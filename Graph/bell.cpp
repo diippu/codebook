@@ -14,14 +14,12 @@ void solve()
                     x = e.b;
                 }
     }
-
     if (x == -1)
         cout << "No negative cycle from " << v;
     else {
         int y = x;
         for (int i = 0; i < n; ++i)
             y = p[y];
-
         vector<int> path;
         for (int cur = y;; cur = p[cur]) {
             path.push_back(cur);
@@ -29,7 +27,6 @@ void solve()
                 break;
         }
         reverse(path.begin(), path.end());
-
         cout << "Negative cycle: ";
         for (int u : path)
             cout << u << ' ';

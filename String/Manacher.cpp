@@ -12,7 +12,7 @@ struct Manacher {
         int t = r - i + !z;
         if (i < r) p[z][i] = min(t, p[z][l + t]);
         int L = i - p[z][i], R = i + p[z][i] - !z;
-        while (L >= 1 && R + 1 < n && s[L - 1] == s[R + 1]) 
+        while (L >= 1 && R + 1 < n && s[L - 1] == s[R + 1])
           p[z][i]++, L--, R++;
         if (R > r) l = L, r = R;
       }
@@ -23,10 +23,7 @@ struct Manacher {
     return 2 * p[len % 2][mid] + len % 2 >= len;
   }
 };
-
 int32_t main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);
   string s; cin >> s;
   Manacher M(s);
   int n = s.size();

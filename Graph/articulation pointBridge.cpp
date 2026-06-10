@@ -1,10 +1,8 @@
 int n; // number of nodes
 vector<vector<int>> adj; // adjacency list of graph
-
 vector<bool> visited;
 vector<int> tin, low;
 int timer;
-
 void dfs(int v, int p = -1) {
     visited[v] = true;
     tin[v] = low[v] = timer++;
@@ -24,7 +22,6 @@ void dfs(int v, int p = -1) {
     if(p == -1 && children > 1)
         IS_CUTPOINT(v);
 }
-
 void find_cutpoints() {
     timer = 0;
     visited.assign(n, false);
@@ -35,16 +32,13 @@ void find_cutpoints() {
             dfs (i);
     }
 }
-
 // finding bridge.
 void IS_BRIDGE(int v,int to); // some function to process the found bridge
 int n; // number of nodes
 vector<vector<int>> adj; // adjacency list of graph
-
 vector<bool> visited;
 vector<int> tin, low;
 int timer;
-
 void dfs(int v, int p = -1) {
     visited[v] = true;
     tin[v] = low[v] = timer++;
@@ -64,7 +58,6 @@ void dfs(int v, int p = -1) {
         }
     }
 }
-
 void find_bridges() {
     timer = 0;
     visited.assign(n, false);

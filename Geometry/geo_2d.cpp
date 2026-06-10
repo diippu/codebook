@@ -1,30 +1,4 @@
-const double PI = acos((double)-1.0);
-int sign(double x) { return (x > eps) - (x < -eps); }
-struct PT {
-    double x, y;
-    PT() { x = 0, y = 0; }
-    PT(double x, double y) : x(x), y(y) {}
-    PT(const PT &p) : x(p.x), y(p.y)    {}
-    PT operator + (const PT &a) const { return PT(x + a.x, y + a.y); }
-    PT operator - (const PT &a) const { return PT(x - a.x, y - a.y); }
-    PT operator * (const double a) const { return PT(x * a, y * a); }
-    friend PT operator * (const double &a, const PT &b) { return PT(a * b.x, a * b.y); }
-    PT operator / (const double a) const { return PT(x / a, y / a); }
-    bool operator == (PT a) const { return sign(a.x - x) == 0 && sign(a.y - y) == 0; }
-    bool operator != (PT a) const { return !(*this == a); }
-    bool operator < (PT a) const { return sign(a.x - x) == 0 ? y < a.y : x < a.x; }
-    bool operator > (PT a) const { return sign(a.x - x) == 0 ? y > a.y : x > a.x; }
-    double norm() { return sqrt(x * x + y * y); }
-    double norm2() { return x * x + y * y; }
-    PT perp() { return PT(-y, x); }
-    double arg() { return atan2(y, x); }
-    PT truncate(double r) { // returns a vector with norm r and having same direction
-        double k = norm();
-        if (!sign(k)) return *this;
-        r /= k;
-        return PT(x * r, y * r);
-    }
-};
+const double PI = acos((double)-1.0);  int sign(double x) { return (x > eps) - (x < -eps); }  struct PT {  double x, y;  PT() { x = 0, y = 0; }  PT(double x, double y) : x(x), y(y) {}  PT(const PT &p) : x(p.x), y(p.y)    {}  PT operator + (const PT &a) const { return PT(x + a.x, y + a.y); }  PT operator - (const PT &a) const { return PT(x - a.x, y - a.y); }  PT operator * (const double a) const { return PT(x * a, y * a); }  friend PT operator * (const double &a, const PT &b) { return PT(a * b.x, a * b.y); }  PT operator / (const double a) const { return PT(x / a, y / a); }  bool operator == (PT a) const { return sign(a.x - x) == 0 && sign(a.y - y) == 0; }  bool operator != (PT a) const { return !(*this == a); }  bool operator < (PT a) const { return sign(a.x - x) == 0 ? y < a.y : x < a.x; }  bool operator > (PT a) const { return sign(a.x - x) == 0 ? y > a.y : x > a.x; }  double norm() { return sqrt(x * x + y * y); }  double norm2() { return x * x + y * y; }  PT perp() { return PT(-y, x); }  double arg() { return atan2(y, x); }  PT truncate(double r) { // returns a vector with norm r and having same direction  double k = norm();  if (!sign(k)) return *this;  r /= k;  return PT(x * r, y * r);  }  };
 istream &operator >> (istream &in, PT &p) { return in >> p.x >> p.y; }
 ostream &operator << (ostream &out, PT &p) { return out << "(" << p.x << "," << p.y << ")"; }
 inline double dot(PT a, PT b) { return a.x * b.x + a.y * b.y; }
@@ -82,23 +56,19 @@ struct line {
     	pair<PT, PT> get_points() { //extract any two points from this line
 		PT p, q; double a = -v.y, b = v.x; // ax + by = c
 		if (sign(a) == 0) {
-		    p = PT(0, c / b);
-		    q = PT(1, c / b);
+		    p = PT(0, c / b); q = PT(1, c / b);
 		}
 		else if (sign(b) == 0) {
-		    p = PT(c / a, 0);
-		    q = PT(c / a, 1);
+		    p = PT(c / a, 0); q = PT(c / a, 1);
 		}
 		else {
-		    p = PT(0, c / b);
-		    q = PT(1, (c - a) / b);
+		    p = PT(0, c / b); q = PT(1, (c - a) / b);
 		}
 		return {p, q};
     	}
     // ax + by + c = 0
     array<double, 3> get_abc() {
-        double a = -v.y, b = v.x;
-        return {a, b, -c};
+        double a = -v.y, b = v.x; return {a, b, -c};
     }
     // 1 if on the left, -1 if on the right, 0 if on the line
     int side(PT p) { return sign(cross(v, p) - c); }
@@ -507,43 +477,6 @@ PT geometric_median(vector<PT> p) {
     }
     return {xl, findY(xl).first };
 }
-vector<PT> convex_hull(vector<PT> &p) {
-	if (p.size() <= 1) return p;
-	vector<PT> v = p;
-    sort(v.begin(), v.end());
-    vector<PT> up, dn;
-    for (auto& p : v) {
-        while (up.size() > 1 && orientation(up[up.size() - 2], up.back(), p) >= 0) {
-            up.pop_back();
-        }
-        while (dn.size() > 1 && orientation(dn[dn.size() - 2], dn.back(), p) <= 0) {
-            dn.pop_back();
-        }
-        up.push_back(p);
-        dn.push_back(p);
-    }
-    v = dn;
-    if (v.size() > 1) v.pop_back();
-    reverse(up.begin(), up.end());
-    up.pop_back();
-    for (auto& p : up) {
-        v.push_back(p);
-    }
-    if (v.size() == 2 && v[0] == v[1]) v.pop_back();
-    return v;
-}
- //checks if convex or not
-bool is_convex(vector<PT> &p) {
-    bool s[3]; s[0] = s[1] = s[2] = 0;
-    int n = p.size();
-    for (int i = 0; i < n; i++) {
-        int j = (i + 1) % n;
-        int k = (j + 1) % n;
-        s[sign(cross(p[j] - p[i], p[k] - p[i])) + 1] = 1;
-        if (s[0] && s[2]) return 0;
-    }
-    return 1;
-}
 // -1 if strictly inside, 0 if on the polygon, 1 if strictly outside
 // it must be strictly convex, otherwise make it strictly convex first
 int is_point_in_convex(vector<PT> &p, const PT& x) { // O(log n)
@@ -770,29 +703,6 @@ double maximum_dist_from_polygon_to_polygon(vector<PT> &u, vector<PT> &v){ //O(n
     }
     return sqrt(ans);
 }
-// contains all points p such that: cross(b - a, p - a) >= 0
-struct HP {
-    PT a, b;
-    HP() {}
-    HP(PT a, PT b) : a(a), b(b) {}
-    HP(const HP& rhs) : a(rhs.a), b(rhs.b) {}
-    int operator < (const HP& rhs) const {
-        PT p = b - a;
-        PT q = rhs.b - rhs.a;
-        int fp = (p.y < 0 || (p.y == 0 && p.x < 0));
-        int fq = (q.y < 0 || (q.y == 0 && q.x < 0));
-        if (fp != fq) return fp == 0;
-        if (cross(p, q)) return cross(p, q) > 0;
-        return cross(p, rhs.b - a) < 0;
-    }
-    PT line_line_intersection(PT a, PT b, PT c, PT d) {
-        b = b - a; d = c - d; c = c - a;
-        return a + b * cross(c, d) / cross(b, d);
-    }
-    PT intersection(const HP &v) {
-        return line_line_intersection(a, b, v.a, v.b);
-    }
-};
 
 // rotate the polygon such that the (bottom, left)-most point is at the first position
 void reorder_polygon(vector<PT> &p) {
@@ -916,4 +826,3 @@ double maximum_inscribed_circle(vector<PT> p) {
 	}
 	return l;
 }
-

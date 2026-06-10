@@ -1,6 +1,3 @@
-#include<bits/stdc++.h>
-using namespace std;
-
 typedef struct AC {
     static const int K = 26;
     struct node {
@@ -63,13 +60,11 @@ typedef struct AC {
         st.resize(k);
         en.resize(k);
         ad.resize(k);
-        for (int i = 1; i < k; i++) 
+        for (int i = 1; i < k; i++)
             ad[get_link(i)].push_back(i);
         dfs(0);
     }
-
 } cc;
-
 int cs = 1;
 void solve() {
     cc bc;
@@ -93,14 +88,4 @@ void solve() {
     }
     cout << "Case " << cs++ << ":\n";
     for (int i = 1; i <= n; i++) cout << res[i] << "\n";
-}
- 
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int TestCase = 1;
-    cin >> TestCase;  
-    while(TestCase--)
-        solve();
-    return 0;
 }

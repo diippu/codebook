@@ -1,16 +1,25 @@
-int mobius[MAX+5]; 
-   int pcount[MAX+5];
-   void mymobius() {
-     mobius[1] = 1;
-    for(int i = 2; i <= 500010; i++) {
-      if(pcount[i]==0) {
-        mobius[i] =-1;
-        for(int j = 2; j*i <= 500010; j++) {
-          if(j%i == 0) {
-            pcount[i*j] = -1;
-          } else if(pcount[i*j] != -1) pcount[i*j]++;
-        }
-      } else if(pcount[i] == -1) mobius[i] = 0;
-      else mobius[i] = ((pcount[i]%2 == 0) ? 1 : -1);
+int mob[N];
+void mobius() {
+  mob[1] = 1;
+  for (int i = 2; i < N; i++){
+    mob[i]--;
+    for (int j = i + i; j < N; j += i) {
+      mob[j] -= mob[i];
     }
-   }
+  }
+}
+bool vis[N];
+vector<int> d[N];
+int mul[N];
+void add(int x, int k) {
+  for (auto y: d[x]) {
+    mul[y] += k;
+  }
+}
+int query(int x) {
+  int ans = 0;
+  for (auto y: d[x]) {
+    ans += mul[y] * mob[y];
+  }
+  return ans;
+}

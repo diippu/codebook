@@ -3,19 +3,15 @@ vector<int> p1(N, 1), p2(N, 1);
 vector<int> inp1(N, 1), inp2(N, 1);
 int b1 = 37, m1 = 1e9 + 7;
 int b2 = 73, m2 = 998244341;
-
 int modp(int i, int j, int m) {
     return 1ll * i * j % m;
 }
-
 int moda(int i, int j, int m) {
     return (i + j) % m;
 }
-
 int mods(int i, int j, int m) {
     return ((i - j) % m + m) % m;
 }
-
 vector<int> get_hash(string s, int b, int m, vector<int> &p) {
     //hash vector of a string 1000456781 998244341 37 73
     int sz = s.size();
@@ -29,13 +25,11 @@ vector<int> get_hash(string s, int b, int m, vector<int> &p) {
     }
     return hash;
 }
-
 int getHashL_R(int l, int r, vector<int> &hash, vector<int> &inp, int m) {
      int hsh = mods(hash[r], hash[l - 1], m);
      hsh = modp(hsh, inp[l], m);
      return hsh;
 }
-
 int binpow(int a, int b, int m) {
     a %= m;
     int res = 1;
@@ -46,7 +40,6 @@ int binpow(int a, int b, int m) {
     }
     return res % m;
 }
-
 void pre() {
     //p[i] have power i - 1;
     for (int i = 2; i < N; i++) {

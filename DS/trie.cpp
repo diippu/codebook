@@ -1,6 +1,5 @@
 const int B = 31;
 using ll = long long;
-
 struct node {
     int sz;
     node *nxt[2];
@@ -10,12 +9,10 @@ struct node {
         sz = 0;
     }   
 } *root;
-
 void del(node* cur) {
     for (int i = 0; i < 2; i++) if (cur -> nxt[i]) del(cur -> nxt[i]);
     delete(cur);
 }
-
 void insert(int val) {
     node *cur = root;
     cur -> sz++;
@@ -28,7 +25,6 @@ void insert(int val) {
         cur -> sz++;
     }
 }
-
 void erase(int val) {
     node *cur = root;
     cur -> sz--;
@@ -44,7 +40,6 @@ void erase(int val) {
         }
     }
 }
-
 int query_max(int val) { 
     //return maximum of val ^ x(x is inserted)
     int ans = 0;
@@ -57,7 +52,6 @@ int query_max(int val) {
     }
     return ans;
 }
-
 int query_min(int val) { 
     ////return minimum of val ^ x(x is inserted)
     int ans = 0;
@@ -70,7 +64,6 @@ int query_min(int val) {
     }
     return ans;
 }
-
 int query(ll val, ll k) { 
     //return number of values x, val ^ x < k(x is inserted)
     int ans = 0;

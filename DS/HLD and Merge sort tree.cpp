@@ -43,7 +43,6 @@ void hld(int u) {
         hld(v);
     }
 }
-
 void merge(int ind)  {
     int lsize = seg[2*ind+1].size();
     int rsize = seg[2*ind +2].size();
@@ -84,7 +83,6 @@ void build(vector<int>& arr, int l, int r, int ind) {
         merge(ind);
      }
 }
-
 ll query(int s, int e, int l , int r, int ind, int tar) {
     if(s>e) return 0;
     if(s==l && e==r) {
