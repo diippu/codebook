@@ -12,8 +12,11 @@ using LL = __int128;
 template <typename T>
 using order_set = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 template <typename T> using minheap = priority_queue<T, vector<T>, greater<T>>;
-//find_by_order() -> iterator to the k-th largest element (zero based)
-//order_of_key() -> the number of items that are strictly smaller 
+// find_by_order() -> iterator to the k-th largest element (zero based)
+// order_of_key() -> the number of items that are strictly smaller
+// __builtin_popcount() -> number of ones
+// __builtin_clz() -> number of leading 0bits from msb
+// __builtin_ctz() -> number of leading 0bits from lsb
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 void solve(int tc) {
 }
