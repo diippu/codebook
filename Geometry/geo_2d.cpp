@@ -1,4 +1,33 @@
-const double PI = acos((double)-1.0);  int sign(double x) { return (x > eps) - (x < -eps); }  struct PT {  double x, y;  PT() { x = 0, y = 0; }  PT(double x, double y) : x(x), y(y) {}  PT(const PT &p) : x(p.x), y(p.y)    {}  PT operator + (const PT &a) const { return PT(x + a.x, y + a.y); }  PT operator - (const PT &a) const { return PT(x - a.x, y - a.y); }  PT operator * (const double a) const { return PT(x * a, y * a); }  friend PT operator * (const double &a, const PT &b) { return PT(a * b.x, a * b.y); }  PT operator / (const double a) const { return PT(x / a, y / a); }  bool operator == (PT a) const { return sign(a.x - x) == 0 && sign(a.y - y) == 0; }  bool operator != (PT a) const { return !(*this == a); }  bool operator < (PT a) const { return sign(a.x - x) == 0 ? y < a.y : x < a.x; }  bool operator > (PT a) const { return sign(a.x - x) == 0 ? y > a.y : x > a.x; }  double norm() { return sqrt(x * x + y * y); }  double norm2() { return x * x + y * y; }  PT perp() { return PT(-y, x); }  double arg() { return atan2(y, x); }  PT truncate(double r) { // returns a vector with norm r and having same direction  double k = norm();  if (!sign(k)) return *this;  r /= k;  return PT(x * r, y * r);  }  };
+const int N = 3e5 + 9;
+const double inf = 1e100;
+const double eps = 1e-9;
+const double PI = acos((double)-1.0);
+int sign(double x) { return (x > eps) - (x < -eps); }
+struct PT {
+    double x, y;
+    PT() { x = 0, y = 0; }
+    PT(double x, double y) : x(x), y(y) {}
+    PT(const PT &p) : x(p.x), y(p.y)    {}
+    PT operator + (const PT &a) const { return PT(x + a.x, y + a.y); }
+    PT operator - (const PT &a) const { return PT(x - a.x, y - a.y); }
+    PT operator * (const double a) const { return PT(x * a, y * a); }
+    friend PT operator * (const double &a, const PT &b) { return PT(a * b.x, a * b.y); }
+    PT operator / (const double a) const { return PT(x / a, y / a); }
+    bool operator == (PT a) const { return sign(a.x - x) == 0 && sign(a.y - y) == 0; }
+    bool operator != (PT a) const { return !(*this == a); }
+    bool operator < (PT a) const { return sign(a.x - x) == 0 ? y < a.y : x < a.x; }
+    bool operator > (PT a) const { return sign(a.x - x) == 0 ? y > a.y : x > a.x; }
+    double norm() { return sqrt(x * x + y * y); }
+    double norm2() { return x * x + y * y; }
+    PT perp() { return PT(-y, x); }
+    double arg() { return atan2(y, x); }
+    PT truncate(double r) { // returns a vector with norm r and having same direction
+        double k = norm();
+        if (!sign(k)) return *this;
+        r /= k;
+        return PT(x * r, y * r);
+    }
+};
 istream &operator >> (istream &in, PT &p) { return in >> p.x >> p.y; }
 ostream &operator << (ostream &out, PT &p) { return out << "(" << p.x << "," << p.y << ")"; }
 inline double dot(PT a, PT b) { return a.x * b.x + a.y * b.y; }
